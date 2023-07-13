@@ -6,7 +6,8 @@
         public static void Main(string[] args)
         {
             MooGame game = new MooGame();
-            GameController controller = new GameController(game);
+            IUI ui = new ConsoleUI();
+            GameController controller = new GameController(game,ui);
             controller.Run();
             
         }

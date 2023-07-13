@@ -3,96 +3,97 @@
     public class GameController
     {
         private MooGame game;
+        private IUI ui;
+        private string name;
 
-        public GameController(MooGame game)
+        public GameController(MooGame game, IUI ui)
         {
             this.game = game;
-
+            this.ui = ui;
         }
 
         public void Run()
         {
-            bool playOn = true;
-            Console.WriteLine("Enter your user name:\n");
-            string name = Console.ReadLine();
+            getPlayerData();
 
-            while (playOn)
+            while (game.IsOngoing())
             {
-                string goal = makeGoal();
-
-
-                Console.WriteLine("New game:\n");
-                //comment out or remove next line to play real games!
-                Console.WriteLine("For practice, number is: " + goal + "\n");
-                string guess = Console.ReadLine();
-
-                int nGuess = 1;
-                string bbcc = checkBC(goal, guess);
-                Console.WriteLine(bbcc + "\n");
-                while (bbcc != "BBBB,")
-                {
-                    nGuess++;
-                    guess = Console.ReadLine();
-                    Console.WriteLine(guess + "\n");
-                    bbcc = checkBC(goal, guess);
-                    Console.WriteLine(bbcc + "\n");
-                }
-                StreamWriter output = new StreamWriter("result.txt", append: true);
-                output.WriteLine(name + "#&#" + nGuess);
-                output.Close();
-                showTopList();
-                Console.WriteLine("Correct, it took " + nGuess + " guesses\nContinue?");
-                string answer = Console.ReadLine();
-                if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
-                {
-                    playOn = false;
-                }
+                runGame();
             }
         }
 
-        static string makeGoal()
+        private void getPlayerData()
         {
-            Random randomGenerator = new Random();
-            string goal = "";
-            for (int i = 0; i < 4; i++)
-            {
-                int random = randomGenerator.Next(10);
-                string randomDigit = "" + random;
-                while (goal.Contains(randomDigit))
-                {
-                    random = randomGenerator.Next(10);
-                    randomDigit = "" + random;
-                }
-                goal = goal + randomDigit;
-            }
-            return goal;
+            ui.WriteString("Enter your user name:\n");
+            name = ui.GetString();
         }
 
-        static string checkBC(string goal, string guess)
+        private void runGame()
         {
-            int cows = 0, bulls = 0;
-            guess += "    ";     // if player entered less than 4 chars
-            for (int i = 0; i < 4; i++)
+            game.SetupNewGame();
+
+            ui.WriteString("New game:\n");
+            //comment out or remove next line to play real games!
+            ui.WriteString("For practice, number is: " + game.getAnswer() + "\n");
+
+
+            string guess = "";
+            while (game.IsOngoing())
             {
-                for (int j = 0; j < 4; j++)
+                guess = getValidGuess();
+                outputHint(guess);
+                if (game.IsGuessCorrect(guess))
                 {
-                    if (goal[i] == guess[j])
-                    {
-                        if (i == j)
-                        {
-                            bulls++;
-                        }
-                        else
-                        {
-                            cows++;
-                        }
-                    }
+                    endGame();
                 }
             }
-            return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+
+
+
+            StreamWriter output = new StreamWriter("result.txt", append: true);
+            output.WriteLine(name + "#&#" + game.Guesses);
+            output.Close();
+            showTopList();
+            ui.WriteString("Correct, it took " + game.Guesses + " guesses\nContinue?");
+            string answer = ui.GetString();
+            if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
+            {
+                game.setIsNotFinished(false);
+            }
         }
 
-        static void showTopList()
+        private void outputHint(string guess)
+        {
+            string hint = game.GetHint(guess);
+
+            ui.WriteString(hint);
+        }
+
+        private void endGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        private string getValidGuess()
+        {
+            string guess;
+            bool isInvalidGuess = true;
+            do
+            {
+                guess = ui.GetString();
+                if (game.IsValidGuess(guess))
+                    isInvalidGuess = false;
+                else
+                    ui.WriteString("Guess is in the wrong format, try again");
+
+            } while (isInvalidGuess);
+
+
+            return guess;
+        }
+
+
+        void showTopList()
         {
             StreamReader input = new StreamReader("result.txt");
             List<PlayerData> results = new List<PlayerData>();
@@ -116,10 +117,11 @@
 
             }
             results.Sort((p1, p2) => p1.Average().CompareTo(p2.Average()));
-            Console.WriteLine("Player   games average");
+
+            ui.WriteString("Player   games average");
             foreach (PlayerData p in results)
             {
-                Console.WriteLine(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.Name, p.NGames, p.Average()));
+                ui.WriteString(string.Format("{0,-9}{1,5:D}{2,9:F2}", p.Name, p.NGames, p.Average()));
             }
             input.Close();
         }

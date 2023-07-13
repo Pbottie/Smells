@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Smells
+﻿namespace Smells
 {
     public class PlayerData
     {
+
         public string Name { get; private set; }
         public int NGames { get; private set; }
         int totalGuess;
-
-
         public PlayerData(string name, int guesses)
         {
             this.Name = name;
@@ -32,13 +25,13 @@ namespace Smells
         }
 
 
-        public override bool Equals(Object p)
+        public bool Equals(Object p)
         {
             return Name.Equals(((PlayerData)p).Name);
         }
 
 
-        public override int GetHashCode()
+        public int GetHashCode()
         {
             return Name.GetHashCode();
         }
