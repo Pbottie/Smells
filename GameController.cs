@@ -15,11 +15,13 @@
         public void Run()
         {
             getPlayerData();
-
+            setupNewGame();
             while (game.IsOngoing())
             {
                 runGame();
+                checkToPlayAgain();
             }
+
         }
 
         private void getPlayerData()
@@ -28,10 +30,15 @@
             name = ui.GetString();
         }
 
-        private void runGame()
+        private void setupNewGame()
         {
             game.SetupNewGame();
+        }
 
+        private void runGame()
+        {
+
+            setupNewGame();
             ui.WriteString("New game:\n");
             //comment out or remove next line to play real games!
             ui.WriteString("For practice, number is: " + game.getAnswer() + "\n");
@@ -44,34 +51,38 @@
                 outputHint(guess);
                 if (game.IsGuessCorrect(guess))
                 {
-                    endGame();
+                    recordResult();
+                    showResultsAndEndGame();
                 }
             }
 
+        }
+        private void checkToPlayAgain()
+        {
+            ui.WriteString("Continue?");
+            string answer = getValidInput();
+            if (answer == "y")
+                setupNewGame();
 
+        }
 
+        private void recordResult()
+        {
             StreamWriter output = new StreamWriter("result.txt", append: true);
             output.WriteLine(name + "#&#" + game.Guesses);
             output.Close();
-            showTopList();
-            ui.WriteString("Correct, it took " + game.Guesses + " guesses\nContinue?");
-            string answer = ui.GetString();
-            if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
-            {
-                game.setIsNotFinished(false);
-            }
         }
 
         private void outputHint(string guess)
         {
             string hint = game.GetHint(guess);
-
             ui.WriteString(hint);
         }
 
-        private void endGame()
+        private void showResultsAndEndGame()
         {
-            throw new NotImplementedException();
+            showTopList();
+            ui.WriteString("Correct, it took " + game.Guesses + " guesses");
         }
 
         private string getValidGuess()
@@ -90,6 +101,23 @@
 
 
             return guess;
+        }
+        private string getValidInput()
+        {
+            string answer;
+            bool isInvalid = true;
+
+            do
+            {
+                answer = ui.GetString().Trim().ToLower();
+                if (answer == "y" || answer == "n")
+                    isInvalid = false;
+                else
+                    ui.WriteString("Answer with Y/y or N/n");
+
+            } while (isInvalid);
+
+            return answer;
         }
 
 

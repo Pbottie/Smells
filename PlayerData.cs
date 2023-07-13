@@ -25,13 +25,13 @@
         }
 
 
-        public bool Equals(Object p)
+        override public bool Equals(Object p)
         {
             return Name.Equals(((PlayerData)p).Name);
         }
 
 
-        public int GetHashCode()
+        override public int GetHashCode()
         {
             return Name.GetHashCode();
         }

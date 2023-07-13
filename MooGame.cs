@@ -4,7 +4,7 @@ namespace Smells
 {
     public class MooGame
     {
-        public int Guesses { get; set; }
+        public int Guesses { get; private set; }
         private bool isOngoing;
         private int unknownNumbers;
         private string answer;
@@ -33,8 +33,10 @@ namespace Smells
 
         public bool IsValidGuess(string guess)
         {
-            //Match 4 unique digits
-            Regex regex = new Regex(@"^(?:([\d])(?!.*\1)){4}$");
+            //Match 4 unique digits like goal
+            //Regex regex = new Regex(@"^(?:([\d])(?!.*\1)){4}$");
+            //Match 4 digits like original
+            Regex regex = new Regex(@"^([\d]){4}$");
             if (regex.IsMatch(guess))
             {
                 incrementGuesses();
@@ -47,7 +49,10 @@ namespace Smells
         public bool IsGuessCorrect(string guess)
         {
             if (guess == answer)
+            {
+                isOngoing = false;
                 return true;
+            }
             return false;
 
         }
