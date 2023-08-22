@@ -4,12 +4,15 @@
     {
         private MooGame game;
         private IUI ui;
+        IGameStats stats;
         private string name;
 
-        public GameController(MooGame game, IUI ui)
+        public GameController(MooGame game, IUI ui, IGameStats stats)
         {
             this.game = game;
             this.ui = ui;
+            this.stats = stats;
+
         }
 
         public void Run()
@@ -37,8 +40,6 @@
 
         private void runGame()
         {
-
-            setupNewGame();
             ui.WriteString("New game:\n");
             //comment out or remove next line to play real games!
             ui.WriteString("For practice, number is: " + game.getAnswer() + "\n");

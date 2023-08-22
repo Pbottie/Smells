@@ -7,11 +7,12 @@
         {
             MooGame game = new MooGame();
             IUI ui = new ConsoleUI();
-            GameController controller = new GameController(game,ui);
+            IGameStats stats = new MooGameStats();
+            GameController controller = new GameController(game, ui, stats);
             controller.Run();
-            
+
         }
-        
+
     }
-       
+
 }
