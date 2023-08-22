@@ -4,24 +4,24 @@
     {
 
         public string Name { get; private set; }
-        public int NGames { get; private set; }
+        public int GamesPlayed { get; private set; }
         int totalGuess;
         public PlayerData(string name, int guesses)
         {
-            this.Name = name;
-            NGames = 1;
+            Name = name;
+            GamesPlayed = 1;
             totalGuess = guesses;
         }
 
         public void Update(int guesses)
         {
             totalGuess += guesses;
-            NGames++;
+            GamesPlayed++;
         }
 
         public double Average()
         {
-            return (double)totalGuess / NGames;
+            return (double)totalGuess / GamesPlayed;
         }
 
 
