@@ -41,8 +41,6 @@
                 {
                     Players[pos].Update(guesses);
                 }
-
-
             }
             Players.Sort((p1, p2) => p1.Average().CompareTo(p2.Average()));
             input.Close();
@@ -53,6 +51,7 @@
             StreamWriter output = new StreamWriter(ResultsFilename, append: true);
             output.WriteLine(CurrentPlayerName + ScoreSeparator + guesses);
             output.Close();
+            ParseResultsFile();
         }
 
     }

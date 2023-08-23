@@ -16,73 +16,73 @@
 
         public void Run()
         {
-            getPlayerData();
-            setupNewGame();
+            GetPlayerData();
+            SetupNewGame();
             while (game.IsOngoing())
             {
-                runGame();
-                checkToPlayAgain();
+                RunGame();
+                CheckToPlayAgain();
             }
 
         }
 
-        private void getPlayerData()
+        private void GetPlayerData()
         {
             ui.WriteString("Enter your user name:\n");
             stats.CurrentPlayerName = ui.GetString();
         }
 
-        private void setupNewGame()
+        private void SetupNewGame()
         {
             game.SetupNewGame();
         }
 
-        private void runGame()
+        private void RunGame()
         {
             ui.WriteString("New game:\n");
             //comment out or remove next line to play real games!
-            ui.WriteString("For practice, number is: " + game.getAnswer() + "\n");
+            //ui.WriteString("For practice, number is: " + game.getAnswer() + "\n");
 
 
             string guess = "";
             while (game.IsOngoing())
             {
-                guess = getValidGuess();
-                outputHint(guess);
+                guess = GetValidGuess();
+                OutputHint(guess);
                 if (game.IsGuessCorrect(guess))
                 {
-                    recordResult();
-                    showResultsAndEndGame();
+                    RecordResult();
+                    ShowResultsAndEndGame();
                 }
             }
 
         }
-        private void checkToPlayAgain()
+        private void CheckToPlayAgain()
         {
             ui.WriteString("Continue?");
-            string answer = getValidInput();
+            string answer = GetValidInput();
             if (answer == "y")
-                setupNewGame();
+                SetupNewGame();
 
         }
 
-        private void outputHint(string guess)
+        private void OutputHint(string guess)
         {
             string hint = game.GetHint(guess);
             ui.WriteString(hint);
         }
-        private void recordResult()
+        private void RecordResult()
         {
             stats.RecordStats(game.Guesses);
         }
 
-        private void showResultsAndEndGame()
+        private void ShowResultsAndEndGame()
         {
-            showTopList();
+            ShowTopList();
             ui.WriteString("Correct, it took " + game.Guesses + " guesses");
         }
 
-        private string getValidGuess()
+        private string GetValidGuess()
         {
             string guess;
             bool isInvalidGuess = true;
@@ -99,7 +99,7 @@
 
             return guess;
         }
-        private string getValidInput()
+        private string GetValidInput()
         {
             string answer;
             bool isInvalid = true;
@@ -117,7 +117,7 @@
             return answer;
         }
 
-        void showTopList()
+        void ShowTopList()
         {
             ui.WriteString("Player   games average");
             foreach (PlayerData p in stats.Players)

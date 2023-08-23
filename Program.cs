@@ -2,7 +2,6 @@
 {
     class MainClass
     {
-
         public static void Main(string[] args)
         {
             MooGame game = new MooGame();
@@ -12,7 +11,5 @@
             controller.Run();
 
         }
-
     }
-
 }

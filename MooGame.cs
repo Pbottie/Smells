@@ -5,32 +5,23 @@ namespace Smells
     public class MooGame
     {
         public int Guesses { get; private set; }
-        private bool isOngoing;
-        private int unknownNumbers;
-        private string answer;
-        public MooGame()
-        {
-            SetupNewGame();
-        }
+        internal bool isOngoing;
+        internal int unknownNumbers;
+        internal string answer;
+     
         public void SetupNewGame()
         {
             isOngoing = true;
             Guesses = 0;
             unknownNumbers = 4;
-            answer = generateAnswer();
+            GenerateAnswer();
         }
 
         public bool IsOngoing()
         {
             return isOngoing;
         }
-        #region bridging methods
-        public void setIsNotFinished(bool value) { isOngoing = value; }
-        public string getAnswer() { return answer; }
-
-        #endregion
-
-
+ 
         public bool IsValidGuess(string guess)
         {
             //Match 4 unique digits like goal
@@ -39,7 +30,7 @@ namespace Smells
             Regex regex = new Regex(@"^([\d]){4}$");
             if (regex.IsMatch(guess))
             {
-                incrementGuesses();
+                IncrementGuesses();
                 return true;
             }
 
@@ -83,11 +74,11 @@ namespace Smells
 
 
 
-        private void incrementGuesses()
+        internal void IncrementGuesses()
         {
             Guesses++;
         }
-        private string generateAnswer()
+        internal void GenerateAnswer()
         {
             Random randomGenerator = new Random();
             string goal = "";
@@ -102,8 +93,7 @@ namespace Smells
                 }
                 goal = goal + randomDigit;
             }
-            return goal;
-
+            answer = goal;
         }
 
     }

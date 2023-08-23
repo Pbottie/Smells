@@ -6,6 +6,5 @@
         string GetString();
         void Exit();
         void Clear();
-
     }
 }
