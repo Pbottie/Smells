@@ -1,14 +1,15 @@
 ﻿using System.Text.RegularExpressions;
+using Smells.Interfaces;
 
 namespace Smells
 {
-    public class MooGame
+    public class MooGame : IMooGame
     {
         public int Guesses { get; private set; }
         internal bool isOngoing;
         internal int unknownNumbers;
         internal string answer;
-     
+
         public void SetupNewGame()
         {
             isOngoing = true;
@@ -21,7 +22,7 @@ namespace Smells
         {
             return isOngoing;
         }
- 
+
         public bool IsValidGuess(string guess)
         {
             //Match 4 unique digits like goal
@@ -71,8 +72,6 @@ namespace Smells
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
 
         }
-
-
 
         internal void IncrementGuesses()
         {

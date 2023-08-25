@@ -5,23 +5,23 @@
 
         public string Name { get; private set; }
         public int GamesPlayed { get; private set; }
-        int totalGuess;
+        int totalGuesses;
         public PlayerData(string name, int guesses)
         {
             Name = name;
             GamesPlayed = 1;
-            totalGuess = guesses;
+            totalGuesses = guesses;
         }
 
         public void Update(int guesses)
         {
-            totalGuess += guesses;
+            totalGuesses += guesses;
             GamesPlayed++;
         }
 
         public double Average()
         {
-            return (double)totalGuess / GamesPlayed;
+            return (double)totalGuesses / GamesPlayed;
         }
 
 

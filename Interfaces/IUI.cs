@@ -1,4 +1,4 @@
-﻿namespace Smells
+﻿namespace Smells.Interfaces
 {
     public interface IUI
     {

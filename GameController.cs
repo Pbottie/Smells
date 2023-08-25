@@ -1,12 +1,14 @@
-﻿namespace Smells
+﻿using Smells.Interfaces;
+
+namespace Smells
 {
     public class GameController
     {
-        private MooGame game;
+        private IMooGame game;
         private IUI ui;
-        IGameStats stats;
+        private IGameStats stats;
 
-        public GameController(MooGame game, IUI ui, IGameStats stats)
+        public GameController(IMooGame game, IUI ui, IGameStats stats)
         {
             this.game = game;
             this.ui = ui;
@@ -16,7 +18,7 @@
 
         public void Run()
         {
-            GetPlayerData();
+            SetPlayerName();
             SetupNewGame();
             while (game.IsOngoing())
             {
@@ -26,23 +28,20 @@
 
         }
 
-        private void GetPlayerData()
+        internal void SetPlayerName()
         {
             ui.WriteString("Enter your user name:\n");
             stats.CurrentPlayerName = ui.GetString();
         }
 
-        private void SetupNewGame()
+        internal void SetupNewGame()
         {
             game.SetupNewGame();
         }
 
-        private void RunGame()
+        internal void RunGame()
         {
             ui.WriteString("New game:\n");
-            //comment out or remove next line to play real games!
-            //ui.WriteString("For practice, number is: " + game.getAnswer() + "\n");
-
 
             string guess = "";
             while (game.IsOngoing())
@@ -57,32 +56,32 @@
             }
 
         }
-        private void CheckToPlayAgain()
+        internal void CheckToPlayAgain()
         {
             ui.WriteString("Continue?");
-            string answer = GetValidInput();
+            string answer = GetYesNoInput();
             if (answer == "y")
                 SetupNewGame();
 
         }
 
-        private void OutputHint(string guess)
+        internal void OutputHint(string guess)
         {
             string hint = game.GetHint(guess);
             ui.WriteString(hint);
         }
-        private void RecordResult()
+        internal void RecordResult()
         {
             stats.RecordStats(game.Guesses);
         }
 
-        private void ShowResultsAndEndGame()
+        internal void ShowResultsAndEndGame()
         {
             ShowTopList();
             ui.WriteString("Correct, it took " + game.Guesses + " guesses");
         }
 
-        private string GetValidGuess()
+        internal string GetValidGuess()
         {
             string guess;
             bool isInvalidGuess = true;
@@ -99,7 +98,7 @@
 
             return guess;
         }
-        private string GetValidInput()
+        internal string GetYesNoInput()
         {
             string answer;
             bool isInvalid = true;
@@ -117,7 +116,7 @@
             return answer;
         }
 
-        void ShowTopList()
+        internal void ShowTopList()
         {
             ui.WriteString("Player   games average");
             foreach (PlayerData p in stats.Players)

@@ -1,4 +1,6 @@
-﻿namespace Smells
+﻿using Smells.Interfaces;
+
+namespace Smells
 {
     public class ConsoleUI : IUI
     {

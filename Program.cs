@@ -1,12 +1,15 @@
-﻿namespace Smells
+﻿using Smells.Interfaces;
+
+namespace Smells
 {
     class MainClass
     {
         public static void Main(string[] args)
         {
-            MooGame game = new MooGame();
+            IMooGame game = new MooGame();
             IUI ui = new ConsoleUI();
-            IGameStats stats = new MooGameStats();
+            IDataStorage dataStorage = new TextDataStorage();
+            IGameStats stats = new MooGameStats(dataStorage);
             GameController controller = new GameController(game, ui, stats);
             controller.Run();
 
