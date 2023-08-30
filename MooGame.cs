@@ -6,22 +6,18 @@ namespace Smells
     public class MooGame : IMooGame
     {
         public int Guesses { get; private set; }
-        internal bool isOngoing;
+        public bool IsOngoing { get; private set; }
         internal int unknownNumbers;
         internal string answer;
 
         public void SetupNewGame()
         {
-            isOngoing = true;
+            IsOngoing = true;
             Guesses = 0;
             unknownNumbers = 4;
             GenerateAnswer();
         }
 
-        public bool IsOngoing()
-        {
-            return isOngoing;
-        }
 
         public bool IsValidGuess(string guess)
         {
@@ -42,7 +38,7 @@ namespace Smells
         {
             if (guess == answer)
             {
-                isOngoing = false;
+                IsOngoing = false;
                 return true;
             }
             return false;
@@ -52,9 +48,9 @@ namespace Smells
         public string GetHint(string guess)
         {
             int cows = 0, bulls = 0;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < unknownNumbers; i++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int j = 0; j < unknownNumbers; j++)
                 {
                     if (answer[i] == guess[j])
                     {

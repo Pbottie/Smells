@@ -20,7 +20,7 @@ namespace Smells
         {
             SetPlayerName();
             SetupNewGame();
-            while (game.IsOngoing())
+            while (game.IsOngoing)
             {
                 RunGame();
                 CheckToPlayAgain();
@@ -44,7 +44,7 @@ namespace Smells
             ui.WriteString("New game:\n");
 
             string guess = "";
-            while (game.IsOngoing())
+            while (game.IsOngoing)
             {
                 guess = GetValidGuess();
                 OutputHint(guess);

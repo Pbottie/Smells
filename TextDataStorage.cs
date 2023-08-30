@@ -4,10 +4,11 @@ namespace Smells
 {
     internal class TextDataStorage : IDataStorage
     {
-        const string ResultsFilename = "result.txt";
+        const string ResultsFilename = "resultAlphabet.txt";
         const string ScoreSeparator = "#&#";
         public List<PlayerData> GetScores()
         {
+            CreateFileIfItDoesNotExist();
             StreamReader input = new StreamReader(ResultsFilename);
             List<PlayerData> players = new List<PlayerData>();
 
@@ -41,6 +42,12 @@ namespace Smells
             output.WriteLine(playerName + ScoreSeparator + guesses);
             output.Close();
 
+        }
+
+        private void CreateFileIfItDoesNotExist()
+        {
+            StreamWriter sr = new StreamWriter(ResultsFilename, append: true);
+            sr.Close();
         }
     }
 }

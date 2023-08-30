@@ -6,7 +6,7 @@ namespace Smells
     {
         public static void Main(string[] args)
         {
-            IMooGame game = new MooGame();
+            IMooGame game = new AlphabetMooGame();
             IUI ui = new ConsoleUI();
             IDataStorage dataStorage = new TextDataStorage();
             IGameStats stats = new MooGameStats(dataStorage);
