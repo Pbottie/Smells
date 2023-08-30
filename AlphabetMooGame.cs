@@ -9,7 +9,7 @@ namespace Smells
 
         public bool IsOngoing { get; private set; }
         internal int unknownLetters = 4;
-        internal string answer;
+        internal string answer = "";
 
 
         public string GetHint(string guess)

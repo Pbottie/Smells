@@ -8,7 +8,7 @@ namespace Smells
         public int Guesses { get; private set; }
         public bool IsOngoing { get; private set; }
         internal int unknownNumbers;
-        internal string answer;
+        internal string answer = "";
 
         public void SetupNewGame()
         {
@@ -19,8 +19,10 @@ namespace Smells
         }
 
 
-        public bool IsValidGuess(string guess)
+        public bool IsValidGuess(string? guess)
         {
+            if (guess == null)
+                return false;
             //Match 4 unique digits like goal
             //Regex regex = new Regex(@"^(?:([\d])(?!.*\1)){4}$");
             //Match 4 digits like original

@@ -4,33 +4,42 @@ namespace Smells
 {
     internal class TextDataStorage : IDataStorage
     {
-        const string ResultsFilename = "resultAlphabet.txt";
         const string ScoreSeparator = "#&#";
+        public string ResultsFilename { get; private set; }
+
+
+        public TextDataStorage(string fileName)
+        {
+            ResultsFilename = fileName;
+            CreateFile();
+        }
         public List<PlayerData> GetScores()
         {
-            CreateFileIfItDoesNotExist();
             StreamReader input = new StreamReader(ResultsFilename);
+            #region OLD
             List<PlayerData> players = new List<PlayerData>();
 
-            string line;
+            string? line;
             while ((line = input.ReadLine()) != null)
             {
                 string[] nameAndGuesses = line.Split(ScoreSeparator, StringSplitOptions.None);
                 string name = nameAndGuesses[0];
                 int guesses = Convert.ToInt32(nameAndGuesses[1]);
-                PlayerData pd = new PlayerData(name, guesses);
+                PlayerData playerData = new PlayerData(name, guesses);
 
-                int pos = players.IndexOf(pd);
-                if (pos < 0)
+                int playerIndex = players.IndexOf(playerData);
+                if (playerIndex < 0)
                 {
-                    players.Add(pd);
+                    players.Add(playerData);
                 }
                 else
                 {
-                    players[pos].Update(guesses);
+                    players[playerIndex].Update(guesses);
                 }
             }
             players.Sort((p1, p2) => p1.Average().CompareTo(p2.Average()));
+
+            #endregion
             input.Close();
 
             return players;
@@ -44,7 +53,7 @@ namespace Smells
 
         }
 
-        private void CreateFileIfItDoesNotExist()
+        private void CreateFile()
         {
             StreamWriter sr = new StreamWriter(ResultsFilename, append: true);
             sr.Close();
