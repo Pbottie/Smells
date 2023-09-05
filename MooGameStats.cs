@@ -9,12 +9,11 @@ namespace Smells
         public IDataStorage DataConnection { get; set; }
 
 
-        public MooGameStats(IDataStorage dataStorage)
+        public MooGameStats()
         {
             CurrentPlayerName = "";
             Players = new List<PlayerData>();
-            DataConnection = dataStorage;
-            GetResults();
+            //GetResults();
         }
 
         internal void GetResults()

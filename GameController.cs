@@ -4,16 +4,17 @@ namespace Smells
 {
     public class GameController
     {
-        private IMooGame game;
+        internal IMooGame game;
         private IUI ui;
         private IGameStats stats;
+        private IDataStorage storage;
 
-        public GameController(IMooGame game, IUI ui, IGameStats stats)
+        public GameController(IUI ui, IGameStats stats, IDataStorage storage)
         {
-            this.game = game;
             this.ui = ui;
             this.stats = stats;
-
+            this.storage = storage;
+            stats.DataConnection = storage;
         }
 
         public void Run()
@@ -25,7 +26,6 @@ namespace Smells
                 RunGame();
                 CheckToPlayAgain();
             }
-
         }
 
         internal void SetPlayerName()
@@ -36,7 +36,26 @@ namespace Smells
 
         internal void SetupNewGame()
         {
+            string choice = GetGameType();
+            game = GameFactory.GetGame(choice);
+            stats.DataConnection.ResultsKey = "results" + game.GetType().ToString();
+
             game.SetupNewGame();
+        }
+
+        internal string GetGameType()
+        {
+            string answer;
+
+            ui.WriteString("Choose your game:\n");
+            ui.WriteString("1. MooGame\n2. AlphabetMooGame");
+
+            do
+            {
+                answer = ui.GetString();
+            } while ((answer != "1") == (answer != "2"));
+
+            return answer;
         }
 
         internal void RunGame()
@@ -51,7 +70,7 @@ namespace Smells
                 if (game.IsGuessCorrect(guess))
                 {
                     RecordResult();
-                    ShowResultsAndEndGame();
+                    ShowResults();
                 }
             }
 
@@ -75,7 +94,7 @@ namespace Smells
             stats.RecordStats(game.Guesses);
         }
 
-        internal void ShowResultsAndEndGame()
+        internal void ShowResults()
         {
             ShowTopList();
             ui.WriteString("Correct, it took " + game.Guesses + " guesses");
