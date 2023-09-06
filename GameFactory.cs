@@ -11,10 +11,8 @@ namespace Smells
             {
                 case "1":
                     return new MooGame();
-                    break;
                 case "2":
                     return new AlphabetMooGame();
-                    break;
                 default: throw new Exception("Gametype does not exist.");
             }
 

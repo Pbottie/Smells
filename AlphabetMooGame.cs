@@ -11,7 +11,6 @@ namespace Smells
         internal int unknownLetters = 4;
         internal string answer = "";
 
-
         public string GetHint(string guess)
         {
             char[] guessCopy = guess.ToUpper().ToCharArray();
@@ -21,7 +20,6 @@ namespace Smells
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
 
         }
-
 
         internal (int bulls, int cows) GetBullsAndCows(char[] guessCopy, char[] answerCopy)
         {
@@ -38,7 +36,6 @@ namespace Smells
                 }
             }
 
-
             string remainingAnswerLetters = new string(answerCopy).Replace("_", "");
             string remainingGuessLetters = new string(guessCopy).Replace("_", "");
 
@@ -54,7 +51,6 @@ namespace Smells
             return (bulls, cows);
         }
 
-
         public bool IsGuessCorrect(string guess)
         {
             if (guess.ToUpper() == answer)
@@ -64,8 +60,6 @@ namespace Smells
             }
             return false;
         }
-
-
 
         public bool IsValidGuess(string guess)
         {

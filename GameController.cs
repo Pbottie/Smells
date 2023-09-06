@@ -15,6 +15,7 @@ namespace Smells
             this.stats = stats;
             this.storage = storage;
             stats.DataConnection = storage;
+
         }
 
         public void Run()
@@ -38,24 +39,24 @@ namespace Smells
         {
             string choice = GetGameType();
             game = GameFactory.GetGame(choice);
-            stats.DataConnection.ResultsKey = "results" + game.GetType().ToString();
+            stats.DataConnection.ResultsAccess = "results" + game.GetType().ToString();
 
             game.SetupNewGame();
         }
 
         internal string GetGameType()
         {
-            string answer;
+            string choice;
 
             ui.WriteString("Choose your game:\n");
             ui.WriteString("1. MooGame\n2. AlphabetMooGame");
 
             do
             {
-                answer = ui.GetString();
-            } while ((answer != "1") == (answer != "2"));
+                choice = ui.GetString();
+            } while ((choice != "1") == (choice != "2"));
 
-            return answer;
+            return choice;
         }
 
         internal void RunGame()

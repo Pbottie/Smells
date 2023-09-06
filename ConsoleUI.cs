@@ -10,7 +10,11 @@ namespace Smells
         }
         public string GetString()
         {
-            return Console.ReadLine();
+            string? input = Console.ReadLine();
+            if (string.IsNullOrEmpty(input))
+                return string.Empty;
+
+            return input;
         }
         public void Exit()
         {

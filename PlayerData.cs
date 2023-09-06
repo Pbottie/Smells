@@ -24,13 +24,11 @@
             return (double)totalGuesses / GamesPlayed;
         }
 
-
         override public bool Equals(Object? p)
         {
             if (p == null) return false;
             return Name.Equals(((PlayerData)p).Name);
         }
-
 
         override public int GetHashCode()
         {

@@ -13,18 +13,30 @@ namespace Smells
         {
             CurrentPlayerName = "";
             Players = new List<PlayerData>();
-            //GetResults();
         }
 
         internal void GetResults()
         {
-            Players = DataConnection.GetScores();
+            if (DataConnection == null)
+                ThrowNullException();
+            else
+                Players = DataConnection.GetScores();
         }
 
         public void RecordStats(int guesses)
         {
-            DataConnection.RecordScore(CurrentPlayerName, guesses);
-            GetResults();
+            if (DataConnection == null)
+                ThrowNullException();
+            else
+            {
+                DataConnection.RecordScore(CurrentPlayerName, guesses);
+                GetResults();
+            }
+        }
+
+        internal void ThrowNullException()
+        {
+            throw new NullReferenceException("DataConnection is not set!");
         }
 
     }
